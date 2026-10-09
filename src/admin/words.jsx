@@ -92,31 +92,46 @@ function Words() {
         </div>
       </form>
 
-      <h2 className="pagina-titel">Bestaande woorden</h2>
+     <section className="woordenlijst">
+  <h2 className="pagina-titel">
+    Bestaande woorden ({allWords.length})
+  </h2>
 
-      {allWords.map((w) => (
-        <div key={w.id} className="kaart invoerkaart">
-          <input
-            type="text"
-            aria-label="Woord"
-            value={editedWords[w.id] ?? w.word}
-            onChange={(e) =>
-              setEditedWords({ ...editedWords, [w.id]: e.target.value })
-            }
-            className="invoerkaart__kop"
-          />
+  <div className="kaart woordenlijst__tabel">
+    <div className="woordenlijst__kop">
+      <span>Woord</span>
+      <span>Beschrijvingen</span>
+      <span>Acties</span>
+    </div>
 
+    {allWords.map((w) => (
+      <div key={w.id} className="woordenlijst__rij">
+        <input
+          type="text"
+          aria-label="Woord"
+          value={editedWords[w.id] ?? w.word}
+          onChange={(e) =>
+            setEditedWords({
+              ...editedWords,
+              [w.id]: e.target.value,
+            })
+          }
+          className="woordenlijst__woord"
+        />
+
+        <div className="woordenlijst__beschrijvingen">
           {(w.descriptions || []).map((desc, i) => (
             <input
               key={i}
               type="text"
-              aria-label={`Beschrijving ${i + 1}`}
+              aria-label={`Beschrijving ${i + 1} van ${w.word}`}
               value={editedDescriptions[w.id]?.[i] ?? desc}
               onChange={(e) => {
                 const newDesc = [
                   ...(editedDescriptions[w.id] || w.descriptions),
                 ];
                 newDesc[i] = e.target.value;
+
                 setEditedDescriptions({
                   ...editedDescriptions,
                   [w.id]: newDesc,
@@ -124,15 +139,29 @@ function Words() {
               }}
             />
           ))}
-
-          <div style={{ display: "flex", gap: "0.75rem", justifyContent: "center", padding: "1rem" }}>
-            <button className="knop" onClick={() => updateItemHandler(w.id)}>Update</button>
-            <button className="knop knop--licht" onClick={() => deleteItemHandler(w.id)}>
-              Verwijder
-            </button>
-          </div>
         </div>
-      ))}
+
+        <div className="woordenlijst__acties">
+          <button
+            type="button"
+            className="knop"
+            onClick={() => updateItemHandler(w.id)}
+          >
+            Update
+          </button>
+
+          <button
+            type="button"
+            className="knop knop--licht"
+            onClick={() => deleteItemHandler(w.id)}
+          >
+            Verwijder
+          </button>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
     </main>
   );
 }

@@ -1,14 +1,15 @@
 /* ==================== ROC Nijmegen huisstijl ==================== */
 :root {
-  --roc-paars: #402e56;      /* donkerpaars: tekst en logo */
-  --roc-lila: #6e6eb4;       /* lichtpaars: balken en knoppen */
-  --roc-lavendel: #f0f0f7;   /* achtergrond bovenkant */
+  --roc-paars: #402e56; /* donkerpaars: tekst en logo */
+  --roc-lila: #6e6eb4; /* lichtpaars: balken en knoppen */
+  --roc-lavendel: #f0f0f7; /* achtergrond bovenkant */
   --roc-wit: #ffffff;
-  --roc-grijs: #d9d9d9;      /* admin-tabel */
+  --roc-grijs: #d9d9d9; /* admin-tabel */
   --roc-lijn: #8c8c8c;
   --schaduw: 0 6px 24px rgba(64, 46, 86, 0.1);
 
-  font-family: "Montserrat", system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family:
+    "Montserrat", system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
   color: var(--roc-paars);
@@ -96,7 +97,9 @@ textarea {
   font-size: 0.75rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.15s, color 0.15s;
+  transition:
+    background-color 0.15s,
+    color 0.15s;
 }
 
 .pill:hover,
@@ -281,7 +284,10 @@ textarea {
   border-radius: 8px;
   background: var(--roc-lavendel);
   font-size: 1rem;
-  transition: border-color 0.15s, background-color 0.15s, box-shadow 0.15s;
+  transition:
+    border-color 0.15s,
+    background-color 0.15s,
+    box-shadow 0.15s;
 }
 
 .veld input::placeholder {
@@ -451,7 +457,8 @@ a.knop {
 .tabel {
   min-height: 590px;
   background:
-    linear-gradient(var(--roc-lijn), var(--roc-lijn)) center / 1px 100% no-repeat,
+    linear-gradient(var(--roc-lijn), var(--roc-lijn)) center / 1px 100%
+      no-repeat,
     var(--roc-grijs);
   color: #000;
 }
@@ -489,8 +496,10 @@ button.tabel__rij {
 /* Tabel met drie kolommen (naam, streak, punten) */
 .tabel--drie {
   background:
-    linear-gradient(var(--roc-lijn), var(--roc-lijn)) 33.333% 0 / 1px 100% no-repeat,
-    linear-gradient(var(--roc-lijn), var(--roc-lijn)) 66.667% 0 / 1px 100% no-repeat,
+    linear-gradient(var(--roc-lijn), var(--roc-lijn)) 33.333% 0 / 1px 100%
+      no-repeat,
+    linear-gradient(var(--roc-lijn), var(--roc-lijn)) 66.667% 0 / 1px 100%
+      no-repeat,
     var(--roc-grijs);
 }
 
@@ -531,5 +540,96 @@ button.tabel__rij:focus-visible {
 
   .invoerkaart__kop {
     font-size: 1.15rem;
+  }
+}
+/* ==================== Compacte woordenlijst ==================== */
+.woordenlijst {
+  width: min(1100px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.woordenlijst__tabel {
+  overflow: hidden;
+}
+
+.woordenlijst__kop,
+.woordenlijst__rij {
+  display: grid;
+  grid-template-columns: minmax(150px, 1fr) minmax(0, 2fr) 190px;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+}
+
+.woordenlijst__kop {
+  background: var(--roc-lila);
+  color: var(--roc-wit);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.woordenlijst__rij + .woordenlijst__rij {
+  border-top: 1px solid var(--roc-lavendel);
+}
+
+.woordenlijst__rij:hover {
+  background: var(--roc-lavendel);
+}
+
+.woordenlijst__rij input {
+  width: 100%;
+  min-width: 0;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--roc-grijs);
+  border-radius: 6px;
+  background: var(--roc-wit);
+  font-size: 0.875rem;
+}
+
+.woordenlijst__rij input:focus {
+  outline: 2px solid var(--roc-lila);
+  outline-offset: 2px;
+}
+
+.woordenlijst__woord {
+  font-weight: 600;
+}
+
+.woordenlijst__beschrijvingen {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.4rem;
+}
+
+.woordenlijst__acties {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.woordenlijst__acties .knop {
+  padding: 0.45rem 0.7rem;
+  font-size: 0.8rem;
+}
+
+@media (max-width: 700px) {
+  .woordenlijst__kop {
+    display: none;
+  }
+
+  .woordenlijst__rij {
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+  }
+
+  .woordenlijst__acties {
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 400px) {
+  .woordenlijst__beschrijvingen {
+    grid-template-columns: 1fr;
   }
 }
