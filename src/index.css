@@ -633,3 +633,32 @@ button.tabel__rij:focus-visible {
     grid-template-columns: 1fr;
   }
 }
+/* ==================== Woorden zoeken ==================== */
+.woordenlijst__zoeken {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.woordenlijst__zoeken label {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.woordenlijst__zoeken input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--roc-grijs);
+  border-radius: 8px;
+  background: var(--roc-wit);
+}
+
+.woordenlijst__zoeken input:focus {
+  outline: 2px solid var(--roc-lila);
+  outline-offset: 2px;
+}
+
+.woordenlijst__leeg {
+  padding: 1.5rem;
+  text-align: center;
+}
