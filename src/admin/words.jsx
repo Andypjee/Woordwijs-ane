@@ -16,6 +16,7 @@ function Words() {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const [showAddForm, setShowAddForm] = useState(false);
 
   // Woorden ophalen
   const loadWords = async () => {
@@ -45,6 +46,7 @@ function Words() {
     await addWord(word, descriptions);
     form.reset();
     setDescriptionCount(1);
+    setShowAddForm(false);
     await loadWords();
   };
 
@@ -102,53 +104,73 @@ function Words() {
         </Link>
       </div>
 
-      <h1 className="pagina-titel">Nieuw woord toevoegen</h1>
+      <h1 className="pagina-titel">Woorden beheren</h1>
 
-      <form className="kaart invoerkaart" onSubmit={addItem}>
-        <label className="invoerkaart__kop" htmlFor="nieuwWoord">
-          Woord
-        </label>
+      <button
+        type="button"
+        className="knop"
+        aria-expanded={showAddForm}
+        aria-controls="nieuwWoordFormulier"
+        onClick={() => setShowAddForm((visible) => !visible)}
+      >
+        {showAddForm
+          ? "Formulier sluiten"
+          : "+ Nieuw woord toevoegen"}
+      </button>
 
-        <input
-          id="nieuwWoord"
-          type="text"
-          name="Word"
-          autoComplete="off"
-        />
+      {showAddForm && (
+        <form
+          id="nieuwWoordFormulier"
+          className="kaart invoerkaart"
+          onSubmit={addItem}
+        >
+          <label className="invoerkaart__kop" htmlFor="nieuwWoord">
+            Woord
+          </label>
 
-        <label className="invoerkaart__kop">Beschrijvingen</label>
-
-        {[...Array(descriptionCount)].map((_, i) => (
           <input
-            key={i}
-            name={`description${i}`}
-            placeholder={`Beschrijving ${i + 1}`}
-            aria-label={`Nieuwe beschrijving ${i + 1}`}
+            id="nieuwWoord"
+            type="text"
+            name="Word"
             autoComplete="off"
           />
-        ))}
 
-        <div
-          style={{
-            display: "flex",
-            gap: "0.75rem",
-            justifyContent: "center",
-            padding: "1rem",
-          }}
-        >
-          <button
-            type="button"
-            className="knop knop--licht"
-            onClick={() => setDescriptionCount((n) => n + 1)}
+          <label className="invoerkaart__kop">
+            Beschrijvingen
+          </label>
+
+          {[...Array(descriptionCount)].map((_, i) => (
+            <input
+              key={i}
+              name={`description${i}`}
+              placeholder={`Beschrijving ${i + 1}`}
+              aria-label={`Nieuwe beschrijving ${i + 1}`}
+              autoComplete="off"
+            />
+          ))}
+
+          <div
+            style={{
+              display: "flex",
+              gap: "0.75rem",
+              justifyContent: "center",
+              padding: "1rem",
+            }}
           >
-            + Beschrijving
-          </button>
+            <button
+              type="button"
+              className="knop knop--licht"
+              onClick={() => setDescriptionCount((n) => n + 1)}
+            >
+              + Beschrijving
+            </button>
 
-          <button type="submit" className="knop">
-            Voeg woord toe
-          </button>
-        </div>
-      </form>
+            <button type="submit" className="knop">
+              Voeg woord toe
+            </button>
+          </div>
+        </form>
+      )}
 
       <section className="woordenlijst">
         <h2 className="pagina-titel">
@@ -251,6 +273,7 @@ function Words() {
             htmlFor="woordenPerPagina"
           >
             Woorden per pagina
+
             <select
               id="woordenPerPagina"
               value={pageSize}
