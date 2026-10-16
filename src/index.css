@@ -662,3 +662,56 @@ button.tabel__rij:focus-visible {
   padding: 1.5rem;
   text-align: center;
 }
+/* ==================== Woordenlijst paginering ==================== */
+.woordenlijst__paginering {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.875rem;
+}
+
+.woordenlijst__paginaformaat {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.woordenlijst__paginaformaat select {
+  font: inherit;
+  color: inherit;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--roc-grijs);
+  border-radius: 6px;
+  background: var(--roc-wit);
+}
+
+.woordenlijst__paginaformaat select:focus-visible {
+  outline: 2px solid var(--roc-lila);
+  outline-offset: 2px;
+}
+
+.woordenlijst__paginaknoppen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.woordenlijst__paginaknoppen .knop {
+  padding: 0.5rem 0.9rem;
+  font-size: 0.875rem;
+}
+
+@media (max-width: 700px) {
+  .woordenlijst__paginering {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .woordenlijst__paginaformaat {
+    justify-content: center;
+  }
+}

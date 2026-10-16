@@ -14,6 +14,8 @@ function Words() {
   const [editedDescriptions, setEditedDescriptions] = useState({});
   const [descriptionCount, setDescriptionCount] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
   // Woorden ophalen
   const loadWords = async () => {
@@ -43,13 +45,13 @@ function Words() {
     await addWord(word, descriptions);
     form.reset();
     setDescriptionCount(1);
-    loadWords();
+    await loadWords();
   };
 
   // Woord verwijderen
   const deleteItemHandler = async (id) => {
     await deleteWord(id);
-    loadWords();
+    await loadWords();
   };
 
   // Woord updaten
@@ -65,7 +67,7 @@ function Words() {
     });
 
     alert("Woord bijgewerkt!");
-    loadWords();
+    await loadWords();
   };
 
   // Zoeken in woorden en beschrijvingen
@@ -75,6 +77,18 @@ function Words() {
     [w.word, ...(w.descriptions || [])].some((text) =>
       text.toLocaleLowerCase("nl").includes(query)
     )
+  );
+
+  // Paginering
+  const totalPages = Math.max(
+    1,
+    Math.ceil(filteredWords.length / pageSize)
+  );
+  const activePage = Math.min(currentPage, totalPages);
+  const startIndex = (activePage - 1) * pageSize;
+  const paginatedWords = filteredWords.slice(
+    startIndex,
+    startIndex + pageSize
   );
 
   return (
@@ -151,7 +165,10 @@ function Words() {
             type="search"
             placeholder="Typ om te zoeken..."
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setCurrentPage(1);
+            }}
           />
         </div>
 
@@ -162,7 +179,7 @@ function Words() {
             <span>Acties</span>
           </div>
 
-          {filteredWords.map((w) => (
+          {paginatedWords.map((w) => (
             <div key={w.id} className="woordenlijst__rij">
               <input
                 type="text"
@@ -226,6 +243,54 @@ function Words() {
                 : "Er zijn nog geen woorden."}
             </p>
           )}
+        </div>
+
+        <div className="woordenlijst__paginering">
+          <label
+            className="woordenlijst__paginaformaat"
+            htmlFor="woordenPerPagina"
+          >
+            Woorden per pagina
+            <select
+              id="woordenPerPagina"
+              value={pageSize}
+              onChange={(e) => {
+                setPageSize(Number(e.target.value));
+                setCurrentPage(1);
+              }}
+            >
+              <option value={10}>10</option>
+              <option value={25}>25</option>
+              <option value={50}>50</option>
+            </select>
+          </label>
+
+          <nav
+            className="woordenlijst__paginaknoppen"
+            aria-label="Woordenlijst paginering"
+          >
+            <button
+              type="button"
+              className="knop knop--licht"
+              disabled={activePage === 1}
+              onClick={() => setCurrentPage(activePage - 1)}
+            >
+              ← Vorige
+            </button>
+
+            <span aria-live="polite">
+              Pagina {activePage} van {totalPages}
+            </span>
+
+            <button
+              type="button"
+              className="knop knop--licht"
+              disabled={activePage === totalPages}
+              onClick={() => setCurrentPage(activePage + 1)}
+            >
+              Volgende →
+            </button>
+          </nav>
         </div>
       </section>
     </main>
